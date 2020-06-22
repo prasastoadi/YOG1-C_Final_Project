@@ -24,14 +24,15 @@ Improvement
 
 
 ### 5. Documentation
-####ARCHIVE CONTENTS
+
+#### ARCHIVE CONTENTS
 CT_NonCOVID.zip: Contains non covid lungs ct scan images.
 CT_COVID.zip: Contains covid lungs ct scan images.
 
-####HARDWARE: (The following specs were used to create the original solution)
+#### HARDWARE: (The following specs were used to create the original solution)
 We are using google colab’s facility with GPU Hardware accelerator.
 
-####SOFTWARE:
+#### SOFTWARE:
 Python 3.6.9
 EfficientNet 1.1.0
 Tensorflow 2.2.0
@@ -41,18 +42,18 @@ Sklearn 0.22.2.post1
 OpenCV 4.1.2
 Matplotlib 3.2.1
 
-####DATA SETUP
+#### DATA SETUP
 !git clone https://github.com/UCSD-AI4H/COVID-CT.git
 !unzip "COVID-CT/Images-processed/CT_NonCOVID.zip" -d "dataset/"
 !unzip "COVID-CT/Images-processed/CT_COVID.zip" -d "dataset/"
 
-####DATA PROCESSING
+#### DATA PROCESSING
 Normalization
 Make the pixel range between 0 and 1.
 Reshape
 224x224
 
-####MODEL BUILD:
+#### MODEL BUILD:
 Call Efficientnetb0BaseModel(config_json) class.
 
 ### 6. Propose/Ideate
