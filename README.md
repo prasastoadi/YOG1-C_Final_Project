@@ -76,21 +76,46 @@ test_generator = test_datagen.flow_from_directory(
 )
 
 
+# USING RESNET
+base_model = tf.keras.applications.ResNet50(input_shape=(150, 150, 3),
+                                               include_top=False,
+                                               weights='imagenet')
+					       
+regularizer = tf.keras.regularizers.L1L2(
+    l1=0.5, l2=0.5
+)
+for layer in base_model.layers:
+  layer.trainable = False
+  for attr in ['kernel_regularizer']:
+    if hasattr(layer, attr):
+      setattr(layer, attr, regularizer)
+      
+base_model.summary()
 
-# DEFINE A KERAS MODEL TO CLASSIFY COVID V NONCOVID
-model = tf.keras.models.Sequential([
-    tf.keras.layers.Conv2D(16, (3,3), activation='relu', input_shape=(150, 150, 3)),
-    tf.keras.layers.MaxPooling2D(2,2),
-    tf.keras.layers.Conv2D(32, (3,3), activation='relu'),
-    tf.keras.layers.MaxPooling2D(2,2), 
-    tf.keras.layers.Conv2D(64, (3,3), activation='relu'), 
-    tf.keras.layers.MaxPooling2D(2,2),
-    tf.keras.layers.Flatten(), 
-    tf.keras.layers.Dense(512, activation='relu'), 
-    tf.keras.layers.Dense(1, activation='sigmoid')  
-])
+last_layer = base_model.get_layer('conv5_block3_out')
+print('last layer output shape: ', last_layer.output_shape)
+last_output = last_layer.output
 
-model.compile(optimizer=RMSprop(lr=0.001), loss='binary_crossentropy', metrics=['acc'])
+from tensorflow.keras.optimizers import RMSprop
+
+# Flatten the output layer to 1 dimension
+x = tf.keras.layers.Flatten()(last_output)
+# Add a fully connected layer with 1,024 hidden units and ReLU activation
+x = tf.keras.layers.Dense(1024, activation='relu')(x)
+# Add a dropout rate of 0.2
+x = tf.keras.layers.Dropout(.2)(x)                  
+# Add a final sigmoid layer for classification
+x = tf.keras.layers.Dense(1, activation='sigmoid')(x)           
+
+model = tf.keras.Model(base_model.input, x) 
+
+model.compile(
+    optimizer=tf.keras.optimizers.Adam(learning_rate=0.001), 
+    loss='binary_crossentropy', 
+    metrics=['accuracy']
+)
+
+model.summary()
 
 
 
@@ -99,8 +124,6 @@ class AccCallback(tf.keras.callbacks.Callback):
     if logs.get('accuracy') > .9:
       self.model.stop_training = True
       
-
-
 
 
 history = model.fit(train_generator, epochs=40, steps_per_epoch=3, validation_data = test_generator, verbose = 1, validation_steps=3,
