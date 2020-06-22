@@ -1,7 +1,6 @@
 # Bangkit YOG-1 C Final Project
 ## Classifying COVID-19 and Non-COVID-19 Lungs From CT Scan Using CNN
 
-
 ### 0. Dataset
 What Dataset Did We Choose?  
 
@@ -25,7 +24,36 @@ Improvement
 
 
 ### 5. Documentation
-Github README.md or other reporting format. Please put the details on how others may replicate your steps.  
+####ARCHIVE CONTENTS
+CT_NonCOVID.zip: Contains non covid lungs ct scan images.
+CT_COVID.zip: Contains covid lungs ct scan images.
+
+####HARDWARE: (The following specs were used to create the original solution)
+We are using google colab’s facility with GPU Hardware accelerator.
+
+####SOFTWARE:
+Python 3.6.9
+EfficientNet 1.1.0
+Tensorflow 2.2.0
+Numpy 1.18.5
+Pandas 1.0.4
+Sklearn 0.22.2.post1
+OpenCV 4.1.2
+Matplotlib 3.2.1
+
+####DATA SETUP
+!git clone https://github.com/UCSD-AI4H/COVID-CT.git
+!unzip "COVID-CT/Images-processed/CT_NonCOVID.zip" -d "dataset/"
+!unzip "COVID-CT/Images-processed/CT_COVID.zip" -d "dataset/"
+
+####DATA PROCESSING
+Normalization
+Make the pixel range between 0 and 1.
+Reshape
+224x224
+
+####MODEL BUILD:
+Call Efficientnetb0BaseModel(config_json) class.
 
 ### 6. Propose/Ideate
 Local (Indonesia) implementation of the project you've done  
