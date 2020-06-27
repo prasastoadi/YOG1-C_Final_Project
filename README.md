@@ -19,6 +19,8 @@ Baseline CNN Implementation
 ### 3. Reason
 Why Did We Choose the Specific Improvement?  
 
+We use pre-trained model because using pre-trained is the best practice in deep learning.
+
 
 ### 4. Result
 5-Fold Cross-Validation  
@@ -80,5 +82,9 @@ python ctbangkit/ctbangkit/runners/enet_base_runner.py \
 --logging_dir=experiments \
 --seed=3
 ```
+
+You can use either CLI or Jupyter notebook to reproduce our project.
+
+
 ### 6. Propose/Ideate
 To help government mitigate COVID-19 outbreak.
