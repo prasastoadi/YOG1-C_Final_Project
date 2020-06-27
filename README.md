@@ -80,11 +80,5 @@ python ctbangkit/ctbangkit/runners/enet_base_runner.py \
 --logging_dir=experiments \
 --seed=3
 ```
-
-
-#### DATA PROCESSING
-Normalization
-Make the pixel range between 0 and 1.
-
 ### 6. Propose/Ideate
-To help government 
+To help government mitigate COVID-19 outbreak.
